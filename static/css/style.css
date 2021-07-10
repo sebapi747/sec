@@ -1,0 +1,172 @@
+body            { font-family: sans-serif; background: #fcfcfc; }
+h1, h2, h3, h4, h5, h6{
+  margin-top:40px;
+  margin-bottom:20px;
+}
+a, h1, h2, h3       { color: #377ba8; }
+h1		       { text-align: center; }
+h1, h2, h3   { font-family: 'Georgia', serif; margin: 0; }
+h1              { border-bottom: 2px solid #fafafa; }
+h2              { font-size: 1.4em; }
+h3              { font-size: 1.2em; }
+h1.left { text-align: left;}
+figcaption { text-align: center;}
+
+.tooltip{
+    display: inline;
+    position: relative;
+}
+
+.disable {background-color:#EBEBE4;}
+/*.page           { margin: 2em auto; width: 35em; border: 5px solid #ccc; padding: 0.8em; background: white; }*/
+th { text-align: center;color: #377ba8; }
+td { text-align: right; vertical-align: top;}
+td.left { text-align: left;}
+/*nav  {font-size: 1.0em; }
+.navbar-brand  {font-size: 1.0em; }*/
+/*.navbar-toggle  {width: 66px; height:48px; }*/
+table.entries    {border: 1px solid black; border-collapse: collapse;}
+table.entries  th  {border: 1px solid black; border-collapse: collapse;}
+table.entries  td  {border: 1px solid black; border-collapse: collapse;}
+
+.entries        { list-style: none; margin: 0; padding: 0;}
+.entries li     { margin: 0.8em 1.2em; }
+.entries li h2  { margin-left: -1em; }
+.add-entry      { font-size: 0.9em; border-bottom: 1px solid #ccc; }
+.add-entry dl   { font-weight: bold; }
+table.noborder        {border: none; margin: 0; padding: 0;}
+table.noborder  tr      {border: none; margin: 0; padding: 0;}
+table.noborder  td    {border: none; margin: 0; padding: 0;}
+.metanav        { text-align: center; font-size: 0.8em; padding: 0.3em;
+                  margin-bottom: 1em; background: #fcfcfc; border: none;}
+.homenav > *      { text-align: left; font-size: 0.8em; padding: 0.3em;
+                  margin-bottom: 1em; border: none;}
+.flash          { background: #cee5F5; padding: 0.5em;
+                  border: 1px solid #aacbe2; }
+.error          { background: #f0d6d6; padding: 0.5em; }
+.disclaimer       { text-align: left; font-size: 0.8em; padding: 0.3em;color: gray;
+                  margin-bottom: 1em; border: none;}
+.orange          { background: orange;}
+.highlight   { font-weight: bold; }
+footer {background: #eee;}
+img {
+                max-width: 100%;
+                height:auto;
+} 
+dl {
+  width: 100%;
+  overflow: hidden;
+  padding: 0;
+  margin: 0
+}
+dt {
+  text-align: right;
+  float: left;
+  width: 20%;
+  /* adjust the width; make sure the total of both is 100% */
+  padding: 0;
+  margin: 0
+}
+dd {
+  float: left;
+  width: 80%;
+  /* adjust the width; make sure the total of both is 100% */
+  padding: 0;
+  margin: 0
+}
+body {
+padding: 50px 0px 0px 0px;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+@media (max-width: 950px) {
+    .navbar-header {
+        float: none;
+    }
+    .navbar-toggle {
+        display: block;
+    }
+    .navbar-collapse {
+        border-top: 1px solid transparent;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+    .navbar-collapse.collapse {
+        display: none!important;
+    }
+    .navbar-nav {
+        float: none!important;
+        margin: 7.5px -15px;
+    }
+    .navbar-nav>li {
+        float: none;
+    }
+    .navbar-nav>li>a {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .navbar-text {
+        float: none;
+        margin: 15px 0;
+    }
+    .navbar-collapse.collapse.in { 
+        display: block!important;
+    }
+    .collapsing {
+        overflow: hidden!important;
+    }
+}
+/* popup 
+#register {
+	position:absolute;
+	display: none;
+	background-color: rgba(255,255,255,0.6);
+	margin:auto 5%;
+	height: 50%;
+	width: 50%;
+} */
+
+.blogentry {
+	background: #fcfcfc;
+}
+@media screen{
+.screen-hidden {display: none;}
+}
+@media print {
+body, input {
+	background: white !important;
+	font: 10pt Times, Georgia, serif;
+}
+header, nav, footer, img, hr {
+display: none;
+}
+.homenav, .print-hidden, .btn {
+display: none;
+}
+a, input {
+color: #000;
+}
+.print-hidden {display: none;}
+.page-break {page-break-after: always;}
+.print-footer {position: fixed; bottom: 0;}
+.print-header {position: fixed; top: 0;}
+
+}
