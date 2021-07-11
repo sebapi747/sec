@@ -1,17 +1,20 @@
+drop table sec_filer;
+drop table sec_report;
+
 create table if not exists sec_filer (
-    name text primary key,
+    name text not null primary key,
     cik text not null
 );
 
 create table if not exists sec_report (
-    cik text,
-    dirname text,
+    cik text not null,
+    dirname text not null,
     name text,
     adsh text,
-    period text not null,
-    fy text not null,
-    fp text not null,
-    filed text not null,
-    detail text not null,
+    period text,
+    fy text,
+    fp text,
+    filed text,
+    detail text,
     primary key (cik, dirname)
 );
