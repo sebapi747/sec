@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>SEC Financial Data</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{% if session.blogrowid and entry %}
+<meta property="og:title" content="{{entry.title|safe}}" />
+<meta property="og:image" content="{{entry.coverlink|safe}}" />
+<meta property="og:url" content="{{request.url}}" />
+<meta property="og:description" content="This blog covers financial reporting." />
+{% endif  %}
+<link rel="icon" type="image/png" href="/static/pics/favicon.png" >
+</head>
+<body>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<!--link rel="stylesheet" href="/static/bootstrap-3.3.6-dist/css/bootstrap.min.css"-->
+<link rel="stylesheet" type="text/css" href="/static/css/style.css">
+<!--script
+  src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+  integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc="
+  crossorigin="anonymous"></script-->
+<script src="/static/js/jquery.min.js"></script>
+<!--script src="/static/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script-->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<!--script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.28.4/js/jquery.tablesorter.min.js"></script-->
+<script src="/static/js/jquery.tablesorter.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    processEscapes: true
+  }
+});
+</script>
+  {% if session.logged_in %}
+{% set navigation_bar = [
+    ('/', 'home', 'Risk and PnL'),
+    ('/blog', 'blog', 'Blog')
+] -%}
+{%else%}
+{% set navigation_bar = [
+    ('/', 'home', 'Risk and PnL')
+] -%}
+{% endif %}
+{% set active_page = active_page|default('home') -%}
+<nav class="navbar navbar-inverse navbar-fixed-top">
+	<!--div class="container-fullwidth"-->
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+				<span class="icon-bar" ></span>
+				<span class="icon-bar" ></span>
+				<span class="icon-bar" ></span>
+				<!--span class="icon-bar" style="width: 44px; height: 4px;"></span-->
+			</button>
+			<!--a class="navbar-brand" rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+			<img alt="Creative Commons License" style="border-width:0" src="https://upload.wikimedia.org/wikipedia/commons/6/64/CC-BY.png" />
+			</a-->
+		</div>
+		<div class="collapse navbar-collapse" id="myNavbar">
+			<ul class="nav navbar-nav">
+				{% for href, id, caption in navigation_bar %}
+				<li{% if id == active_page %} class="active"{% endif %}><a href="{{ href|e }}">{{ caption }}</a></li>
+				{% endfor %}
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li {% if 'login' == active_page %} class="active"{% endif %}>
+					{% if not session.email %}
+					<a href="{{ url_for('login') }}" ><span class="glyphicon glyphicon-log-in">  Login</span></a>
+					{% else %}
+					<a href="{{ url_for('logout') }}">Log out</a>
+					{% endif %}
+				</li>
+				<!--li{% if 'register' == active_page %} class="active"{%else%} class="orange" {% endif %}><a href="/register"><span class="glyphicon glyphicon-user">Register</a></li-->
+			</ul>
+		</div>
+	</div>
+</nav>
+<div class="container">
+<div class=page>
+
+  {% for message in get_flashed_messages() %}
+    <div class=flash>{{ message }}</div>
+  {% endfor %}
+
+  {% block body %}{% endblock %}
+<hr>
+</div> <!-- class="container"-->
+</div> <!-- class=page-->
+<footer>
+<a class=disclaimer href="https://validator.w3.org/nu/?doc={{ request.url }}">W3C  HTML5</a>
+</footer>
+</body>
+</html>

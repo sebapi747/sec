@@ -1,0 +1,100 @@
+{% extends "layout.html" %}
+{% set active_page = 'wiki' -%}
+{% block body %}
+<h1>Wiki Wiki Web</h1>
+    <div class="modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Enjoying what you read?</h4>
+		</div>
+			<form action="/register" method=post class=add-entry>
+                 <div class="modal-body">
+			<p>Register for Updates and Stay Informed.</p>
+			<p>We will notify you when there is new quality content and will not pass this information to any external vendor or third party.</p>
+			<p>email:<input type=email size=30 name=email placeholder="myname@example.com"><br>
+			<input type="checkbox" name="bloginterest" value="true" checked="checked">I am interested in blog updates  <br>
+			<input type="checkbox" name="taxinterest" value="true" checked="checked">I am interested in portfolio optimization.<br>
+			comments:<br>
+			<textarea rows=6 cols=50 name=comments ></textarea><br>
+			</p>
+                </div>
+		<div class="modal-footer">
+			<input type=submit  class="btn btn-primary btn-ok" name=action value=Register>
+			<!--a id="closebutton" class="btn btn-default btn-ok" >Close</a-->
+                </div>
+			</form>
+</div>
+</div>
+</div>
+
+
+<script type="text/javascript">
+var show = function(){
+    $('#register').modal('show');
+};
+$(window).load(function(){
+    var timer = window.setTimeout(show,10000000);
+});
+$('#closebutton').click(function() {
+	$('#register').modal('hide');
+	$limit = 9999;
+});
+</script>
+ <div class="row">
+ <div class="col-md-10 col-sm-12" >
+ <article>
+    {{ content|safe }}
+</article>
+ </div>
+<div class="col-md-2 hidden-sm">
+ <div class="homenav well well-sm">
+<h2>Entries Index</h2>
+ <ul>
+ {% for p in alltitles %}
+ <li> <a href="/wiki/{{p.title|safe}}">{{p.title|safe}}</a></li>
+  {% endfor %}
+</ul>
+{% if session.iseditor %}
+ <h2>Pictures Index</h2>
+<ul>
+ {% for p in pics %}
+ <li> <a href="/static/pics/{{p|safe}}">{{p|safe}}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
+</div>
+</div>
+</div>
+{% if session.iseditor %}
+ <div class="row">
+<hr>
+<h2> Upload Picture</h2>
+<form action="/wiki" method=post  enctype="multipart/form-data" class=add-entry>
+<input type=submit  name=action value=Upload>
+<input type=file name=file>
+<input type=text name=targeturl value="{{'/wiki/%s' % title}}" hidden>
+</form>
+<h2> Upload zip</h2>
+<form action="/wiki" method=post  enctype="multipart/form-data" class=add-entry>
+<input type=submit  name=action value="Upload zip">
+<input type=file name=file>
+<input type=text name=targeturl value="{{'/wiki/%s' % title}}" hidden>
+</form>
+</div>
+ <div class="row">
+<h2> Add content page</h2>
+<form action="/wiki" method=post class=add-entry>
+<p>Title:<input type=text size=30 name=newtitle value={{title}}>
+<input type=submit name=action value=Add>
+<input type=submit  name=action value=Modify>
+<input type=submit  name=action value=Delete>
+</p>
+<textarea name=text rows=120 cols=100 >{{text|safe}}</textarea>
+</form>
+</div>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% set active_page = 'login' -%}
+{% block body %}
+<h1>Aquanthus</h1>
+  <form action="{{ url_for('login') }}" method=post>
+    <dl>
+      <dt>Account Number:
+      <dd><input type=text name=email placeholder="joe@example.com" />
+      <dt>Password:
+      <dd><input type=password name=password >
+      <input type=submit name=action value=Login class="btn btn-primary btn-ok"> <a href="create_login" class="btn btn-default btn-ok">create login</a>
+    </dl>
+  </form>
+{% endblock %}

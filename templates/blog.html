@@ -1,0 +1,149 @@
+{% extends "layout.html" %}
+{% set active_page = 'blog' -%}
+{% block body %}
+
+
+    <div class="modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Enjoying what you read?</h4>
+		</div>
+			<form action="/register" method=post class=add-entry>
+                 <div class="modal-body">
+			<p>Share the passion and Register for Updates to Stay Informed.</p>
+			<p>We will notify you when there is new quality content and will not pass this information to any external vendor or third party.</p>
+			<p>email:<input type=email size=30 name=email placeholder="myname@example.com"><br>
+			<input type="checkbox" name="bloginterest" value="true" checked="checked">I am interested in blog updates  <br>
+			<input type="checkbox" name="taxinterest" value="true" checked="checked">I am interested in portfolio optimization.<br>
+			comments:<br>
+			<textarea rows=6 cols=50 name=comments ></textarea><br>
+			</p>
+                </div>
+		<div class="modal-footer">
+			<input type=submit  class="btn btn-primary btn-ok" name=action value=Register>
+			<!--a id="closebutton" class="btn btn-default btn-ok" >Close</a-->
+                </div>
+	{% if entry %}
+	  <table><tr><td><div class="a2a_kit a2a_default_style"><a class="a2a_button_linkedin_share"></a></div><script async src="https://static.addtoany.com/menu/page.js"></script></td>
+	<td><a href="https://twitter.com/share?ref_src={{request.url}}" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></td>
+	  <td><div id="fb-root"></div><script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0"></script>
+	  <div class="fb-like"
+	    data-href="{{request.url}}"
+	    data-layout="standard"
+	    data-action="like"
+	    data-share="true"
+	    data-show-faces="false">
+	  </div></td></tr></table>
+	  {% endif %}
+			</form>
+</div>
+</div>
+</div>
+<script>
+var show = function(){
+    $('#register').modal('show');
+};
+$(window).load(function(){
+    var timer = window.setTimeout(show,10000000);
+});
+$('#closebutton').click(function() {
+	$('#register').modal('hide');
+});
+</script>
+
+<style>
+{% for ret in entries  %}
+	{% if ret.coverlink != None %}
+#{{"blog%d" % ret.rowid}} {
+background-image: linear-gradient(rgba(255,255,255,0.7),rgba(255,255,255,0.7)), url("{{ret.coverlink|safe}}");
+background-repeat: no-repeat;
+background-size: contain;
+background-position: center;
+}
+	{% endif %}
+{% endfor %}
+.blogtitle {
+padding-top: 200px;
+padding-bottom: 200px;
+border: 1px solid black;
+margin-top: 20px;
+}
+</style>
+
+ <div class="row">
+<p>This blog covers financial markets.</p>
+ </div>
+<hr>
+
+<div class="row">
+ <div class="col-md-10 col-sm-12" >
+ {% if session.blogrowid %}
+<article>
+  <h1 class="left">{{entry.title|safe}}</h1>
+  <div class=disclaimer>first posted: {{ entry.entrydate  }}</div>
+  <div class="blog">
+  {{entry.content}}
+  </div>
+	  <table><tr><td><div class="a2a_kit a2a_default_style"><a class="a2a_button_linkedin_share"></a></div><script async src="https://static.addtoany.com/menu/page.js"></script></td>
+	<td><a href="https://twitter.com/share?ref_src={{request.url}}" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></td>
+	  <td><div id="fb-root"></div><script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0"></script>
+	  <div class="fb-like"
+	    data-href="{{request.url}}"
+	    data-layout="standard"
+	    data-action="like"
+	    data-share="true"
+	    data-show-faces="false">
+	  </div></td></tr></table>
+</article>
+{% else %}
+  {% for ret in entries  %}
+	<div id="{{'blog%d' % ret.rowid}}">
+		<div class="blogtitle">
+			<h1 class="left"><a href={{'/blog/%d' % ret.rowid}}>{{ret.title}}</a></h1>
+			<div class=disclaimer>first posted: {{ ret.entrydate  }}</div>
+		</div>
+	</div>
+		{% if ret.coverlink != None %}
+		<!--img class="lessOpacity" src="{{ret.coverlink|safe}}" /-->
+		{% endif %}
+  {% endfor %}
+{% endif %}
+</div>
+<div class="col-md-2 hidden-sm" >
+<div class="well well-sm homenav">
+<h3> Entries Index</h3>
+<ul>
+  <li><a href='/blog'>Blog Home</a></li>
+  {% for ret in entries %}
+  <li><a href={{'/blog/%d' % ret.rowid}}>{{ret.title}}</a> </li>
+  {% endfor %}
+ </ul>
+ </div>
+</div>
+</div>
+
+{% if session.iseditor %}
+<hr>
+<h2> Add blog entry page</h2>
+<form action="/blog" method=post class=add-entry>
+{% if session.blogrowid %}
+<p>Title:<input type=text size=30 name=title value="{{entry.title}}">
+
+<input type=submit  name=action value=Modify>
+<input type=submit  name=action value=Delete>
+</p>
+<p>Cover Picture:<input type=text  name=coverlink value="{{entry.coverlink}}"></p>
+<textarea name=text rows=50 cols=100>{{entry.text|safe}}</textarea>
+{% else %}
+<p>Title:<input type=text size=30 name=title>
+<input type=submit name=action value=Add>
+</p>
+<p>Cover Picture:<input type=text  name=coverlink placeholder="link to cover pic"></p>
+<textarea name=text rows=50 cols=100 placeholder="blog article"></textarea>
+{% endif %}
+</form>
+{% endif %}
+{% endblock %}

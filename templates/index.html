@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% set active_page = 'home' -%}
+{% block body %}
+ <h1>SEC Financial Data</h1>
+
+<input type="text" list="names"/>
+ <datalist id="names">
+{% for ret in namelist %}
+    <option>{{ret}}</option>
+{%endfor%}
+ </datalist>
+
+<div class="row">
+    <div class="col-sm-5" >
+    Lorem Ipsum
+    </div> <!--col-sm-5  -->
+     <div class="col-sm-7" >
+    Lorem Ipsum
+    </div> <!--col-sm-7  -->
+</div><!-- row -->
+{% endblock %}
