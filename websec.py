@@ -70,12 +70,28 @@ def sql_select_to_dictarray(cursor):
 ''' ---------------------------------------------------------------------------------------------
  app
  '''
-@app.route('/')
-def index():
+def getnamelist():
     query = "SELECT cik, max(name) as name FROM sec_filer group by 1 order by 1"
     df = pd.read_sql_query(query,g.db)
-    namelist = list(df['name'])
+    return list(df['name'])
+    
+@app.route('/')
+def index():
+    namelist=getnamelist()
     return render_template('index.html', namelist=namelist)
+
+
+@app.route('/statement', methods=['GET', 'POST'])
+def statement():
+    if request.method != 'POST':
+        flash("method must be post", 'error')
+    legalname = request.form['legalname']
+    df = pd.read_sql_query("SELECT cik FROM sec_filer where name=?",g.db, params=[legalname])
+    cik = df['cik'][0]
+    df = pd.read_sql_query("SELECT * FROM sec_report where cik=?",g.db, params=[cik])
+    filings = df.to_dict('records')
+    namelist=getnamelist()
+    return render_template('index.html', namelist=namelist, filings=filings)
 
 ''' ------------------------------------------------------------------------------------------------
    blog

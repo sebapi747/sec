@@ -3,19 +3,43 @@
 {% block body %}
  <h1>SEC Financial Data</h1>
 
-<input type="text" list="names"/>
+  <form action="/statement" method=post>
+    <dl>
+      <dt>Legal name
+      <dd><input type="text" name=legalname list="names"/>
  <datalist id="names">
 {% for ret in namelist %}
     <option>{{ret}}</option>
 {%endfor%}
  </datalist>
+      <input type=submit name=action value=Retrieve class="btn btn-primary btn-ok">
+    </dl>
+  </form>
 
 <div class="row">
     <div class="col-sm-5" >
-    Lorem Ipsum
+        <table class=entries id="filings" >
+         <thead><tr>
+         <th>dirname</th>
+         <th>name</th>
+         <th>period</th>
+         <th>FY</th>
+         <th>FP</th>
+         </tr></thead>
+         <tbody>
+         {% for ret in filings %}
+         <tr>
+         <td>{{ret.dirname}}</td>
+         <td>{{ret.name}}</td>
+         <td>{{ret.period}}</td>
+         <td>{{ret.fy}}</td>
+         <td>{{ret.fp}}</td>
+         </tr>
+         {%endfor%}
+         </tbody>
+         </table>
     </div> <!--col-sm-5  -->
      <div class="col-sm-7" >
-    Lorem Ipsum
     </div> <!--col-sm-7  -->
 </div><!-- row -->
 {% endblock %}
