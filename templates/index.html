@@ -20,26 +20,37 @@
     <div class="col-sm-5" >
         <table class=entries id="filings" >
          <thead><tr>
-         <th>dirname</th>
-         <th>name</th>
-         <th>period</th>
-         <th>FY</th>
-         <th>FP</th>
-         </tr></thead>
+         <th>quarter</th>
+         <th>BS</th>
+         <th>IS</th>
+         <th>CF</th>
          <tbody>
          {% for ret in filings %}
          <tr>
-         <td>{{ret.dirname}}</td>
-         <td>{{ret.name}}</td>
-         <td>{{ret.period}}</td>
-         <td>{{ret.fy}}</td>
-         <td>{{ret.fp}}</td>
+          <form action="/quarter" method=post>
+         <td>
+              <input type=submit name=action value={{ret.quarter}} class="btn btn-primary btn-ok"/>
+         </td>
+         <td>
+              <input type="text" name=BS value="{{ret.BS}}"/>
+         </td>
+         <td>
+              <input type="text" name=IS value="{{ret.IS}}"/>
+         </td>
+         <td>
+              <input type="text" name=CF value="{{ret.CF}}"/>
+         </td>
+          </form>
          </tr>
          {%endfor%}
          </tbody>
          </table>
     </div> <!--col-sm-5  -->
      <div class="col-sm-7" >
+      {% for table in tables %}
+    <h2>{{titles[loop.index]}}</h2>
+    {{ table|safe }}
+  {% endfor %}
     </div> <!--col-sm-7  -->
 </div><!-- row -->
 {% endblock %}
