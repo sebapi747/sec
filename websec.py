@@ -17,8 +17,8 @@ import requests
 from itsdangerous import URLSafeTimedSerializer
 import config
 
-DATABASE= "perf.db"
 BASEDIR = config.webdir
+CSVDIR = config.dirname + "csv"
 DEBUG = config.DEBUG
 DATABASE =  'sec.db'
 UPLOAD_FOLDER =  'static/pics'
@@ -88,10 +88,44 @@ def statement():
     legalname = request.form['legalname']
     df = pd.read_sql_query("SELECT cik FROM sec_filer where name=?",g.db, params=[legalname])
     cik = df['cik'][0]
-    df = pd.read_sql_query("SELECT * FROM sec_report where cik=?",g.db, params=[cik])
-    filings = df.to_dict('records')
+    dir = "%s/%s" % (CSVDIR, cik)
+    listdir = os.listdir(dir)
+    filingsdict = {}
+    for f in sorted(listdir):
+        m = re.match("(\d+)-(\w+)-(\w\w\w?).csv", f).groups()
+        if len(m)!=3:
+            next
+        cik, quarter, stmt = m
+        if filingsdict.get(quarter) is None:
+            filingsdict[quarter] = {}
+        filingsdict[quarter][stmt] = f
+    filings = []
+    for k in filingsdict.keys():
+        outdict = {'quarter':k}
+        for s in ["BS", "IS", "CF"]:
+            outdict[s] = filingsdict[k][s]
+        filings.append(outdict)
     namelist=getnamelist()
     return render_template('index.html', namelist=namelist, filings=filings)
+
+def get_html(BS):
+    m = re.match("(\d+)-(\w+)-(\w\w\w?).csv", BS).groups()
+    if len(m)!=3:
+        return ""
+    cik, quarter, stmt = m
+    bs = pd.read_csv(CSVDIR + '/' + cik + '/' + BS)
+    return bs.to_html(index=False)
+
+@app.route('/quarter', methods=['GET', 'POST'])
+def quarter():
+    if request.method != 'POST':
+        flash("method must be post", 'error')
+    BS = request.form['BS']
+    IS = request.form['IS']
+    CF = request.form['CF']
+    titles = ["", "Balance Sheet", "Income Statement", "Cashflow Statement"]
+    namelist=getnamelist()
+    return render_template('index.html', namelist=namelist, tables=[get_html(BS), get_html(IS), get_html(CF)], titles=titles)
 
 ''' ------------------------------------------------------------------------------------------------
    blog
